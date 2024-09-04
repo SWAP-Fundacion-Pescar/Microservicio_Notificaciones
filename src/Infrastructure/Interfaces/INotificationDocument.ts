@@ -7,5 +7,6 @@ interface INotificationDocument extends Document{
     createdAt: Date;
     content: string;
     hasImage: boolean;
+    type: string;
 }
 export default INotificationDocument;

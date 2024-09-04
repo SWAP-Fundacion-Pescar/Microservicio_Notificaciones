@@ -5,6 +5,6 @@ interface INotificationCommand
 {
     createNotification(createNotificationRequest: CreateNotificationRequest): Promise<INotificationDocument>;
     deleteNotification(notificationId: string): Promise<void>;
-    readNotification(): Promise<void>;
+    readNotification(notificationId:string): Promise<void>;
 }
 export default INotificationCommand;

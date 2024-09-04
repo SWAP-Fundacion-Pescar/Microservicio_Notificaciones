@@ -1,11 +1,13 @@
 class CreateNotificationRequest{
     userId: string;
     content: string;
+    type: string;
     hasImage?: boolean;
-    constructor(userId: string, content: string, hasImage?: boolean){
+    constructor(userId: string, content: string, type:string, hasImage?: boolean){
         this.userId=userId;
         this.content=content;
-        this.hasImage=hasImage;
+        this.type = type;
+        this.hasImage=hasImage;   
     }
 }
 export default CreateNotificationRequest; 
