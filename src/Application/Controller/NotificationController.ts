@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import INotificationServices from "../../Domain/Interfaces/INotificationServices";
 import CreateNotificationRequest from "../Request/CreateNotificationRequest";
 import GetNotificationByTypeRequest from "../Request/GetNotificationByTypeRequest";
+import io from "../../server";
 
 class NotificationController{
     private notificationServices: INotificationServices;
@@ -20,6 +21,10 @@ class NotificationController{
             const { userId, content, type, hasImage} : CreateNotificationRequest = req.body;
             const createNotificationRequest: CreateNotificationRequest = new CreateNotificationRequest(userId, content, type, hasImage);
             const createdNotification = await this.notificationServices.createNotification(createNotificationRequest);
+            const sockets = await io.in(userId).fetchSockets();
+            if(sockets.length>0){
+                io.to(userId).emit('notification', createdNotification);
+            }
             res.status(201).send(createdNotification.id); // Solo deberia ser utilizado por el microservicio de Intercambios y Chats
         }
         catch(error)

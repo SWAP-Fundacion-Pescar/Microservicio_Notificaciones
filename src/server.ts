@@ -7,6 +7,7 @@ import INotificationCommand from "./Infrastructure/Interfaces/INotificationComma
 import NotificationCommand from "./Infrastructure/Command/NotificationCommand";
 import INotificationQuery from "./Infrastructure/Interfaces/INotificationQuery";
 import NotificationQuery from "./Infrastructure/Query/NotificationQuery";
+import NotificationSocket from "./Application/Sockets/NotificationSockets";
 // import passport from "./Infrastructure/Config/Passport";
 
 interface User
@@ -29,10 +30,11 @@ const io = new Server(server,
         },
         maxHttpBufferSize: 4e6 // 4Mb
     });
+NotificationSocket(io);
 
 const notificationCommand: INotificationCommand = new NotificationCommand();
-const chatQuery: INotificationQuery = new NotificationQuery();
-const chatServices: INotificationServices = new NotificationServices(notificationCommand, chatQuery);
+const notificationQuery: INotificationQuery = new NotificationQuery();
+const notificationServices: INotificationServices = new NotificationServices(notificationCommand, notificationQuery);
 
 // Deberia utilizar el tipo correcto
 // io.engine.use((req: any, res: any, next: any) => {
@@ -44,16 +46,11 @@ const chatServices: INotificationServices = new NotificationServices(notificatio
 //     }
 // });
 
-io.on('connection', function (socket) {
-    console.log('A user connected');
-    const user = socket.request.user;
-    if(user)
-        {
-            console.log('User id: ', user.id);
-        }      
-})
+
 
 // Iniciamos el servidor en el puerto 3003
 server.listen(PORT, function () {
     console.log(`Servidor iniciado en http://localhost:${PORT}`)
 })
+
+export default io;
