@@ -23,10 +23,6 @@ class NotificationServices implements INotificationServices{
     async readNotification(notificationId:string): Promise<void>{
         await this.notificationCommand.readNotification(notificationId);
     };
-    async getNotificationByUserId(userId: string): Promise<Array<Notification>>{
-        const retrievedNotification : Array<Notification> = await this.notificationQuery.getNotificationByUserId(userId)
-        return retrievedNotification;
-    };
     async getNotificationByType(getNotificationByTypeRequest: GetNotificationByTypeRequest): Promise<Array<Notification>>{
         const retrievedNotification : Array<Notification> = await this.notificationQuery.getNotificationByType(getNotificationByTypeRequest)
         return retrievedNotification;

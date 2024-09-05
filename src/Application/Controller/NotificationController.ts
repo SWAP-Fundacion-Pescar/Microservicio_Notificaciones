@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import INotificationServices from "../../Domain/Interfaces/INotificationServices";
 import CreateNotificationRequest from "../Request/CreateNotificationRequest";
-import GetNotificationByTypeRequest from "../Request/GetNotificationByTypeRequest";
 import io from "../../server";
 
 class NotificationController{
@@ -12,8 +11,6 @@ class NotificationController{
         this.createNotification = this.createNotification.bind(this);
         this.deleteNotification = this.deleteNotification.bind(this);
         this.readNotification = this.readNotification.bind(this); 
-        this.getNotificationByUserId = this.getNotificationByUserId.bind(this);  
-        this.getNotificationByType = this.getNotificationByType.bind(this);     
     }
     async createNotification(req: Request, res: Response, next: NextFunction): Promise<void>{
         try
@@ -48,25 +45,6 @@ class NotificationController{
             await this.notificationServices.readNotification(notificationId);
             res.status(204).send('Ok.');
         }catch (error){
-            next(error);
-        }
-    }
-    async getNotificationByUserId(req: Request, res: Response, next: NextFunction): Promise<void>{
-        try{
-            const userId  = req.params.userId as string;
-            const retrievedNotification = await this.notificationServices.getNotificationByUserId(userId);
-            res.status(200).send(retrievedNotification);
-        }catch(error){
-            next(error);
-        }
-    }
-    async getNotificationByType(req: Request, res: Response, next: NextFunction): Promise<void>{
-        try{
-            const {userId, type} : GetNotificationByTypeRequest = req.body;
-            const getNotificationByTypeRequest : GetNotificationByTypeRequest = new GetNotificationByTypeRequest(userId, type)
-            const retrievedNotification = await this.notificationServices.getNotificationByType(getNotificationByTypeRequest);
-            res.status(200).send(retrievedNotification);
-        }catch(error){
             next(error);
         }
     }

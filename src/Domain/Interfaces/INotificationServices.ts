@@ -6,7 +6,6 @@ interface INotificationServices{
     createNotification(createNotificationRequest: CreateNotificationRequest): Promise<Notification>;
     deleteNotification(notificationId: string): Promise<void>;
     readNotification(notificationId:string): Promise<void>;
-    getNotificationByUserId(userId: string): Promise<Array<Notification>>;
     getNotificationByType(getNotificationByTypeRequest: GetNotificationByTypeRequest): Promise<Array<Notification>>;
 }
 export default INotificationServices;

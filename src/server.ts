@@ -8,7 +8,7 @@ import NotificationCommand from "./Infrastructure/Command/NotificationCommand";
 import INotificationQuery from "./Infrastructure/Interfaces/INotificationQuery";
 import NotificationQuery from "./Infrastructure/Query/NotificationQuery";
 import NotificationSocket from "./Application/Sockets/NotificationSockets";
-// import passport from "./Infrastructure/Config/Passport";
+import passport from "./Infrastructure/Config/Passport";
 
 interface User
 {
@@ -36,17 +36,15 @@ const notificationCommand: INotificationCommand = new NotificationCommand();
 const notificationQuery: INotificationQuery = new NotificationQuery();
 const notificationServices: INotificationServices = new NotificationServices(notificationCommand, notificationQuery);
 
-// Deberia utilizar el tipo correcto
-// io.engine.use((req: any, res: any, next: any) => {
-//     const isHandshake = req._query.sid === undefined;
-//     if (isHandshake) {
-//         passport.authenticate("jwt", { session: false })(req, res, next);
-//     } else {
-//         next();
-//     }
-// });
-
-
+//Deberia utilizar el tipo correcto
+io.engine.use((req: any, res: any, next: any) => {
+    const isHandshake = req._query.sid === undefined;
+    if (isHandshake) {
+        passport.authenticate("jwt", { session: false })(req, res, next);
+    } else {
+        next();
+    }
+});
 
 // Iniciamos el servidor en el puerto 3003
 server.listen(PORT, function () {
