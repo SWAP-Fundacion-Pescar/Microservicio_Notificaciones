@@ -15,7 +15,7 @@ class NotificationController{
     async createNotification(req: Request, res: Response, next: NextFunction): Promise<void>{
         try
         {
-            const { userId, content, type, hasImage} : CreateNotificationRequest = req.body;
+            const { userId, content, type, hasImage } : CreateNotificationRequest = req.body;
             const createNotificationRequest: CreateNotificationRequest = new CreateNotificationRequest(userId, content, type, hasImage);
             const createdNotification = await this.notificationServices.createNotification(createNotificationRequest);
             const sockets = await io.in(userId).fetchSockets();
