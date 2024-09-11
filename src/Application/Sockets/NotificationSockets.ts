@@ -6,12 +6,25 @@ import INotificationCommand from "../../Infrastructure/Interfaces/INotificationC
 import INotificationQuery from "../../Infrastructure/Interfaces/INotificationQuery";
 import INotificationServices from "../../Domain/Interfaces/INotificationServices";
 import GetNotificationByTypeRequest from "../Request/GetNotificationByTypeRequest";
+import passport from "../../Infrastructure/Config/Passport";
 
 const notificationCommand: INotificationCommand = new NotificationCommand();
 const notificationQuery: INotificationQuery = new NotificationQuery();
 const notificationServices: INotificationServices = new NotificationServices(notificationCommand, notificationQuery);
 
+
+
 function NotificationSocket(io:Server){
+
+    io.engine.use((req: any, res: any, next: any) => {
+        console.log(req.headers.authorization);
+        const isHandshake = req._query.sid === undefined;
+        if (isHandshake) {
+            passport.authenticate("jwt", { session: false })(req, res, next);
+        } else {
+            next();
+        }
+    });
     io.on('connection', function (socket) {
         console.log('A user connected');
         const user = socket.request.user;
