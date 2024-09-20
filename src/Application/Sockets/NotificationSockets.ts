@@ -17,9 +17,9 @@ const notificationServices: INotificationServices = new NotificationServices(not
 function NotificationSocket(io:Server){
 
     io.engine.use((req: any, res: any, next: any) => {
-        console.log(req.headers.authorization);
+        // console.log(req.headers.authorization);
         const isHandshake = req._query.sid === undefined;
-        if (isHandshake) {
+        if (isHandshake) {        
             passport.authenticate("jwt", { session: false })(req, res, next);
         } else {
             next();
