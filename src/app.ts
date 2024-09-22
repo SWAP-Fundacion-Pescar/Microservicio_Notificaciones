@@ -4,7 +4,8 @@ import errorHandler from './Application/Middleware/ErrorHandler';
 import MongoDB from './Infrastructure/Persistance/Config/MongoDB';
 import router from './Application/Router/NotificationRouter';
 import morgan from 'morgan';
-
+import dotenv from 'dotenv';
+dotenv.config();
 MongoDB();
 const app = express()
 app.use(express.static('public'))
