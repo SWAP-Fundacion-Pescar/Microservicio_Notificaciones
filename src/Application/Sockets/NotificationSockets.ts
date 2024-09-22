@@ -38,10 +38,11 @@ function NotificationSocket(io:Server){
         })
         socket.on('getNotificationsChat', async (userId) =>{
             try{
-                const type = "chat"
+                const type = "message"
                 const getNotificationByTypeRequest : GetNotificationByTypeRequest = new GetNotificationByTypeRequest(userId, type);
                 const retrievedNotifications = await notificationServices.getNotificationByType(getNotificationByTypeRequest);
                 io.to(userId).emit('notificationsChat', retrievedNotifications);
+                console.log(retrievedNotifications);
             }catch(error){
                 console.error(error);
             }

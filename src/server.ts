@@ -26,7 +26,7 @@ const server = createServer(app);
 const io = new Server(server,
     {
         cors: {
-            origin: "http://localhost:3005" 
+            origin: "*" 
         },
         maxHttpBufferSize: 4e6 // 4Mb
     });
@@ -46,7 +46,7 @@ io.engine.use((req: any, res: any, next: any) => {
     }
 });
 
-// Iniciamos el servidor en el puerto 3003
+// Iniciamos el servidor en el puerto 3004
 server.listen(PORT, function () {
     console.log(`Servidor iniciado en http://localhost:${PORT}`)
 })
