@@ -20,8 +20,8 @@ class NotificationController{
         try
         {
             console.log(req.body);
-            const { userId, content, type, hasImage } : CreateNotificationRequest = req.body;
-            const createNotificationRequest: CreateNotificationRequest = new CreateNotificationRequest(userId, content, type, hasImage);
+            const { userId, content, message, type, hasImage } : CreateNotificationRequest = req.body;
+            const createNotificationRequest: CreateNotificationRequest = new CreateNotificationRequest(userId, content, message, type, hasImage);
             const createdNotification = await this.notificationServices.createNotification(createNotificationRequest);
             const sockets = await io.in(userId).fetchSockets();
             if(sockets.length>0){

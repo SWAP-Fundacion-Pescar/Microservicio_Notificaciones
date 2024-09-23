@@ -5,7 +5,8 @@ interface INotificationDocument extends Document{
     isRead: boolean;
     receivedAt: Date;
     createdAt: Date;
-    content: string;
+    content: Object;
+    message: string
     hasImage: boolean;
     type: string;
 }
