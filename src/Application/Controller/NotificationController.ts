@@ -20,13 +20,12 @@ class NotificationController{
         try
         {
             console.log(req.body);
-            const user = req.user as User;
-            const { content, type, hasImage } : CreateNotificationRequest = req.body;
-            const createNotificationRequest: CreateNotificationRequest = new CreateNotificationRequest(user.id, content, type, hasImage);
+            const { userId, content, type, hasImage } : CreateNotificationRequest = req.body;
+            const createNotificationRequest: CreateNotificationRequest = new CreateNotificationRequest(userId, content, type, hasImage);
             const createdNotification = await this.notificationServices.createNotification(createNotificationRequest);
-            const sockets = await io.in(user.id).fetchSockets();
+            const sockets = await io.in(userId).fetchSockets();
             if(sockets.length>0){
-                io.to(user.id).emit('notification', createdNotification);
+                io.to(userId).emit('notification', createdNotification);
             }
             res.status(201).send(createdNotification.id); // Solo deberia ser utilizado por el microservicio de Intercambios y Chats
         }
